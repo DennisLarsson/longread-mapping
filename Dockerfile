@@ -9,4 +9,5 @@ RUN rm ~/miniconda3/miniconda.sh
 RUN ./root/miniconda3/bin/activate
 RUN ./root/miniconda3/bin/conda init --all
 
+FROM longread-mapping-install AS longread-mapping-config
 RUN conda config --add channels bioconda
