@@ -44,4 +44,24 @@ jobs:
 
     - name: Login to GitHub Container Registry
       run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      
+    
+    - name: Convert repository name to lowercase
+      id: repo-name-lowercase
+      run: echo "REPO=$(echo "${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_OUTPUT
+    
+    - name: Get short SHA
+      id: short-sha
+      run: echo "::set-output name=sha::$(git rev-parse --short=7 ${{ github.sha }})"
+
+    - name: Get branch name
+      id: get-branch
+      run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/} | tr '/' '-')"
+    
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v6.18.0
+      with:
+        context: .
+        push: true
+        tags: ghcr.io/${{ steps.repo-name-lowercase.outputs.REPO }}:${{ steps.get-branch.outputs.branch }}-${{ steps.short-sha.outputs.sha }}
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache
