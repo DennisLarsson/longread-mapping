@@ -1,5 +1,5 @@
 FROM ubuntu:24.04 AS stacks2
-RUN apt-get update && apt-get install -y wget source \
+RUN apt-get update && apt-get install -y wget \
 && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p ~/miniconda3
