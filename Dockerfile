@@ -1,4 +1,4 @@
-FROM ubuntu:24.04 AS stacks2
+FROM ubuntu:24.04 AS longread-mapping-install
 RUN apt-get update && apt-get install -y wget \
 && rm -rf /var/lib/apt/lists/*
 
@@ -8,3 +8,5 @@ RUN bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
 RUN rm ~/miniconda3/miniconda.sh
 RUN ./root/miniconda3/bin/activate
 RUN ./root/miniconda3/bin/conda init --all
+
+RUN conda config --add channels bioconda
