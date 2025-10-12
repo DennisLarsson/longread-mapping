@@ -11,5 +11,7 @@ RUN ./root/miniconda3/bin/conda init --all
 RUN ln -s /root/miniconda3/bin/conda /bin/conda
 
 RUN conda config --add channels bioconda
-RUN conda config --add channels conda-forge
-RUN conda config --set channel_priority strict
+RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
+RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+
+RUN conda install -c bioconda pbmm2
