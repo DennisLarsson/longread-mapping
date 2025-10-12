@@ -8,6 +8,8 @@ RUN bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
 RUN rm ~/miniconda3/miniconda.sh
 RUN ./root/miniconda3/bin/activate
 RUN ./root/miniconda3/bin/conda init --all
+RUN ln -s /root/miniconda3/bin/conda /bin/conda
 
-SHELL ["/bin/bash", "-c"]
 RUN conda config --add channels bioconda
+RUN conda config --add channels conda-forge
+RUN conda config --set channel_priority strict
