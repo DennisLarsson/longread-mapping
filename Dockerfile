@@ -1,1 +1,1 @@
-FROM ubuntu:22.04 AS stacks2
+FROM ubuntu:24.04 AS stacks2
