@@ -1,17 +1,9 @@
 FROM ubuntu:24.04 AS longread-mapping-install
-RUN apt-get update && apt-get install -y wget \
+RUN apt-get update && apt-get install -y wget bzip2 samtools \
 && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p ~/miniconda3
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py312_25.7.0-2-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
-RUN bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-RUN rm ~/miniconda3/miniconda.sh
-RUN ./root/miniconda3/bin/activate
-RUN ./root/miniconda3/bin/conda init --all
-RUN ln -s /root/miniconda3/bin/conda /bin/conda
+RUN mkdir ~/minimap2-2.30_x64-linux
+RUN wget https://github.com/lh3/minimap2/releases/download/v2.30/minimap2-2.30_x64-linux.tar.bz2 -O ~/minimap2-2.30_x64-linux/minimap2-2.30_x64-linux.tar.bz2
 
-RUN conda config --add channels bioconda
-RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
-RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
-
-RUN conda install -c bioconda pbmm2
+RUN tar -xjf ~/minimap2-2.30_x64-linux/minimap2-2.30_x64-linux.tar.bz2 -C ~/
+RUN ln -s /root/minimap2-2.30_x64-linux/minimap2 /bin/minimap2
