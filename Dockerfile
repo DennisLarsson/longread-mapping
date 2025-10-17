@@ -1,5 +1,5 @@
-FROM ubuntu:24.04 AS longread-mapping-install
-RUN apt-get update && apt-get install -y wget bzip2 samtools \
+FROM ubuntu:24.04 AS longread-mapping
+RUN apt-get update && apt-get install -y wget bzip2 samtools=1.19.2-1build2 \
 && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /minimap2-2.30_x64-linux

@@ -25,6 +25,30 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-test-buildx-
 
+    - name: Create test Dockerfile
+      run: cat Dockerfile tests/Dockerfile.extended > Dockerfile.test
+
+    - name: Build test Docker image
+      uses: docker/build-push-action@v6.18.0
+      with:
+        context: .
+        file: ./Dockerfile.test
+        tags: longread-mapping-test
+        cache-from: type=local,src=/tmp/.buildx-test.cache
+        cache-to: type=local,dest=/tmp/.buildx-test.cache
+        push: false
+        load: true
+    
+    - name: Save Docker cache
+      if: always()
+      uses: actions/cache@v4.3.0
+      with:
+        path: /tmp/.buildx-test.cache
+        key: ${{ runner.os }}-test-buildx-${{ hashFiles('Dockerfile', 'tests/Dockerfile.extended') }}
+
+    - name: Run test Docker container
+      run: docker run longread-mapping-test
+
   build:
     needs: test
     runs-on: ubuntu-24.04
