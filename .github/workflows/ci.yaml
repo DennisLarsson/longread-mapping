@@ -24,6 +24,9 @@ jobs:
         key: ${{ runner.os }}-test-buildx-${{ github.sha }}
         restore-keys: |
           ${{ runner.os }}-test-buildx-
+    
+    - name: Ensure cache directory exists
+      run: mkdir -p /tmp/.buildx-test.cache
 
     - name: Create test Dockerfile
       run: cat Dockerfile tests/Dockerfile.extended > Dockerfile.test
